@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    int pid = fork();
+
+    if (pid == 0) {
+        printf("Child: PID=%d PPID=%d\n", getpid(), getppid());
+    } else if (pid > 0) {
+        printf("Parent: PID=%d PPID=%d\n", getpid(), getppid());
+    } else {
+        printf("Fork failed\n");
+    }
+    return 0;
+}
+OUTPUT:
+Parent: PID = 1204 PPID = 1100
+Child:  PID = 1205 PPID = 1204
