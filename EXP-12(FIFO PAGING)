@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int main() {
+    int pages[20], f[5], n, fs, i, j=0, faults=0;
+    scanf("%d", &n);
+    for(i=0;i<n;i++) scanf("%d",&pages[i]);
+    scanf("%d",&fs);
+
+    for(i=0;i<fs;i++) f[i]=-1;
+
+    for(i=0;i<n;i++){
+        int hit=0;
+        for(int k=0;k<fs;k++)
+            if(f[k]==pages[i]) hit=1;
+
+        if(!hit){
+            f[j] = pages[i];
+            j = (j+1)%fs;
+            faults++;
+        }
+    }
+    printf("Page Faults = %d", faults);
+    return 0;
+}
+OUTPUT:
+Page Faults = 6
