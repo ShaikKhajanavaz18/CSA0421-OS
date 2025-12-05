@@ -1,0 +1,20 @@
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    char buffer[100];
+    int src = open("source.txt", O_RDONLY);
+    int dest = open("destination.txt", O_WRONLY | O_CREAT, 0644);
+    int n;
+
+    while ((n = read(src, buffer, sizeof(buffer))) > 0)
+        write(dest, buffer, n);
+
+    close(src);
+    close(dest);
+
+    write(1, "File copied successfully\n", 24);
+    return 0;
+}
+OUTPUT:
+File copied successfully
