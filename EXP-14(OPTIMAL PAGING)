@@ -1,0 +1,26 @@
+#include <stdio.h>
+int main() {
+    int p[20], f[5], n, m, i, j, k, pos, faults=0;
+    scanf("%d",&n); for(i=0;i<n;i++) scanf("%d",&p[i]);
+    scanf("%d",&m); for(i=0;i<m;i++) f[i]=-1;
+
+    for(i=0;i<n;i++){
+        int hit=0;
+        for(j=0;j<m;j++) if(f[j]==p[i]) hit=1;
+
+        if(!hit){
+            int far[5];
+            for(j=0;j<m;j++){
+                far[j]=1000;
+                for(k=i+1;k<n;k++) if(f[j]==p[k]){ far[j]=k; break; }
+            }
+            pos=0;
+            for(j=1;j<m;j++) if(far[j]>far[pos]) pos=j;
+            f[pos]=p[i];
+            faults++;
+        }
+    }
+    printf("Faults=%d", faults);
+}
+OUTPUT:
+Faults=7
