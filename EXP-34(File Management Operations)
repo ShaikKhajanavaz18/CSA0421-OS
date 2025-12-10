@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *f;
+    int choice;
+    char filename[20], text[100];
+
+    printf("Enter filename: ");
+    scanf("%s", filename);
+
+    do {
+        printf("\n1.Create & Write\n2.Read\n3.Append\n4.Exit\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch(choice){
+            case 1:
+                f=fopen(filename,"w");
+                if(!f){ printf("Error opening file\n"); break; }
+                printf("Enter text: ");
+                getchar(); fgets(text,100,stdin);
+                fputs(text,f);
+                fclose(f);
+                break;
+            case 2:
+                f=fopen(filename,"r");
+                if(!f){ printf("File not found\n"); break; }
+                while(fgets(text,100,f)) printf("%s", text);
+                fclose(f);
+                break;
+            case 3:
+                f=fopen(filename,"a");
+                if(!f){ printf("File not found\n"); break; }
+                printf("Enter text to append: ");
+                getchar(); fgets(text,100,stdin);
+                fputs(text,f);
+                fclose(f);
+                break;
+        }
+    } while(choice !=4);
+    return 0;
+}
+
+OUTPUT:
+Enter filename: emp.txt
+
+1.Create & Write
+Enter text: Employee 101 John 50000
+
+2.Read
+Employee 101 John 50000
+
+3.Append
+Enter text to append: Employee 102 Alice 45000
+
+2.Read
+Employee 101 John 50000
+Employee 102 Alice 45000
+
+4.Exit
