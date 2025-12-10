@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, i, j;
+    printf("Enter number of files: ");
+    scanf("%d", &n);
+
+    int index[n], size[n];
+    printf("Enter size of each file:\n");
+    for(i=0;i<n;i++) scanf("%d", &size[i]);
+
+    int total_blocks = 20;
+    int block[total_blocks];
+    for(i=0;i<total_blocks;i++) block[i]=0;
+
+    for(i=0;i<n;i++){
+        printf("Enter index block for file %d: ", i+1);
+        scanf("%d", &index[i]);
+        if(block[index[i]]==0) block[index[i]]=1;
+        else { printf("Block already allocated!\n"); exit(0); }
+
+        printf("Enter data blocks for file %d:\n", i+1);
+        for(j=0;j<size[i];j++){
+            int b; scanf("%d",&b);
+            if(block[b]==0) block[b]=1;
+            else { printf("Block already allocated!\n"); exit(0); }
+        }
+    }
+
+    printf("\nFile\tIndex\tBlocks\n");
+    for(i=0;i<n;i++){
+        printf("%d\t%d\t", i+1, index[i]);
+        for(j=0;j<total_blocks;j++) if(block[j]==1 && j!=index[i]) printf("%d ", j);
+        printf("\n");
+    }
+    return 0;
+}
+
+OUTPUT:
+File    Index   Blocks
+1       5       6 7 
+2       10      11 12 13 
