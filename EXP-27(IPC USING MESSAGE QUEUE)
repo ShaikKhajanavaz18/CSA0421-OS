@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <string.h>
+#include <unistd.h>
+
+struct msg { long type; char text[100]; };
+
+int main() {
+    struct msg m;
+    key_t k = ftok("msgfile", 65);
+    int q = msgget(k, 0666 | IPC_CREAT);
+
+    if(fork()==0){
+        m.type = 1;
+        strcpy(m.text, "Hello from Child");
+        msgsnd(q, &m, sizeof(m), 0);
+    } 
+    else {
+        msgrcv(q, &m, sizeof(m), 1, 0);
+        printf("Received: %s\n", m.text);
+        msgctl(q, IPC_RMID, NULL);
+    }
+    return 0;
+}
+
+OUTPUT:
+Received: Hello from Child
